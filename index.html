@@ -1,213 +1,209 @@
 <!doctype html>
 <html lang="fr">
-<head>
-    <!-- https://john2duff.github.io/jonathan.merandat/G%C3%A9n%C3%A9rateur%20tournoi%20V3/generateurTournoi.html -->
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta charset="UTF-8">
-    <title>Badminton tournament v1.0</title>
+        <meta charset="UTF-8">
+        <title>Badminton tournament v1.0</title>
 
-    <!-- Bootstrap CSS offline -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/fonts.css">
-    <link rel="stylesheet" href="/assets/css/tournament.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
 
-    <script src="./assets/js/ext/jquery.3.5.1.slim.min.js"></script>
-    <script src="./assets/js/ext/jquery.1.12.1-ui.js"></script>
-    <script src="./assets/js/ext/popper.min.js"></script>
-    <script src="./assets/js/ext/bootstrap.v4.5.2.min.js"></script>
+        <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./assets/css/fonts.css">
+        <link rel="stylesheet" href="./assets/css/tournament.css">
 
-    <script src="/assets/js/tournament.js"></script>
+        <script src="./assets/js/ext/jquery.3.5.1.slim.min.js"></script>
+        <script src="./assets/js/ext/jquery.1.12.1-ui.js"></script>
+        <script src="./assets/js/ext/popper.min.js"></script>
+        <script src="./assets/js/ext/bootstrap.v4.5.2.min.js"></script>
+        <script src="./assets/js/tournament.js"></script>
 
-    <script>
-        function openTab(evt, tab) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
+        <script>
+            function openTab(evt, tab) {
+                let i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(tab).style.display = "block";
+                evt.currentTarget.className += " active";
             }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tab).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-    </script>
+        </script>
 
-</head>
-<body onload="selectPage();">
-<div id="ssBody"></div>
-<!-- Modal Reset-->
-<div class="modal fade" id="modalReset" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Reset</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Voulez-vous vraiment tout réinitialiser ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
-                <button type="button" onclick="reset();" class="btn btn-danger">Tout supprimer</button>
-            </div>
-        </div>
-    </div>
-</div>
+    </head>
+    <body onload="selectPage();">
+        <div id="ssBody"></div>
 
-<!-- Modal Delete Joueur-->
-<div class="modal fade" id="modalDeleteJoueur" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Suppression d'un joueur</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Voulez-vous vraiment supprimer ce joueur ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
-                <button type="button" onclick="deleteJoueur();" class="btn btn-danger">Supprimer</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal terminer le tournoi -->
-<div class="modal fade" id="modalFinTournoi" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Fin du tournoi</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Êtes-vous sûr de vouloir terminer le tournoi ? <br>
-                <i>Les tours qui ne sont pas terminés ne seront pas pris en compte</i>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
-                <button type="button" onclick="finTournoi();" class="btn btn-danger">Fin du tournoi</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Joueur existant-->
-<div class="modal fade" id="modalJoueurExist" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Joueur existant</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Ce joueur existe déjà, veuillez choisir un autre nom.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Ok</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Match non terminé -->
-<div class="modal fade" id="modalMatchNonTermine" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Matchs non terminés</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Tous les matchs ne sont pas terminés pour ce tour !
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Ok</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal terminer le tournoi -->
-<div class="modal fade" id="modalPreLancer" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Lancer le tournoi</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Le classement du précédent tournoi va être perdu. <br>
-                Voulez-vous lancer un nouveau tournoi ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
-                <button type="button" onclick="lancerTournoi();" class="btn btn-success">Lancer le tournoi</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal crédit -->
-
-<div class="modal fade" id="modalInfoCredit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Informations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="tabs">
-                    <div class="tab">
-                        <button id="buttonApropos" class="tablinks" onclick="openTab(event, 'aPropos')">À propos</button>
+        <!-- Modal Reset-->
+        <div class="modal fade" id="modalReset" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reset</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-
-                    <div id="aPropos" class="tabcontent">
-                        <h4>À propos de l'application</h4>
-                        <p>
-                            Cette application permet de générer rapidement des tournois de Badminton en simple ou en double.
-                            Son usage est libre et gratuite pour un usage non commercial.
-                        </p>
-                        <h4>À propos des développeurs</h4>
-                        <ul>
-                            <li>Benoît JACQUOT</li>
-                            <li>Jonathan Merandat (Merci d'avoir ouvert les sources de l'outil de base <3)</li>
-                        </ul>
+                    <div class="modal-body">
+                        Voulez-vous vraiment tout réinitialiser ?
                     </div>
-
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
+                        <button type="button" onclick="reset();" class="btn btn-danger">Tout supprimer</button>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+
+        <!-- Modal Delete Joueur-->
+        <div class="modal fade" id="modalDeleteJoueur" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Suppression d'un joueur</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Voulez-vous vraiment supprimer ce joueur ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
+                        <button type="button" onclick="deleteJoueur();" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-</body>
+        <!-- Modal terminer le tournoi -->
+        <div class="modal fade" id="modalFinTournoi" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Fin du tournoi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir terminer le tournoi ? <br>
+                        <i>Les tours qui ne sont pas terminés ne seront pas pris en compte</i>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
+                        <button type="button" onclick="finTournoi();" class="btn btn-danger">Fin du tournoi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Modal Joueur existant-->
+        <div class="modal fade" id="modalJoueurExist" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Joueur existant</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Ce joueur existe déjà, veuillez choisir un autre nom.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Match non terminé -->
+        <div class="modal fade" id="modalMatchNonTermine" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Matchs non terminés</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Tous les matchs ne sont pas terminés pour ce tour !
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal terminer le tournoi -->
+        <div class="modal fade" id="modalPreLancer" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lancer le tournoi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Le classement du précédent tournoi va être perdu. <br>
+                        Voulez-vous lancer un nouveau tournoi ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Annuler</button>
+                        <button type="button" onclick="lancerTournoi();" class="btn btn-success">Lancer le tournoi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal crédit -->
+        <div class="modal fade" id="modalInfoCredit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Informations</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="tabs">
+                            <div class="tab">
+                                <button id="buttonApropos" class="tablinks" onclick="openTab(event, 'aPropos')">À propos</button>
+                            </div>
+
+                            <div id="aPropos" class="tabcontent">
+                                <h4>À propos de l'application</h4>
+                                <p>
+                                    Cette application permet de générer rapidement des tournois de Badminton en simple ou en double.
+                                    Son usage est libre et gratuite pour un usage non commercial.
+                                </p>
+                                <h4>À propos des développeurs</h4>
+                                <ul>
+                                    <li>Benoît JACQUOT</li>
+                                    <li>Jonathan Merandat (Merci d'avoir ouvert les sources de l'outil de base <3)</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
 
 
