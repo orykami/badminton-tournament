@@ -503,12 +503,11 @@ div.currentTour div.match{
     height: 30px;
     width: 2px;
     border-radius: 50%;
-    box-shadow: 0px 0px 16px 1px #575757;
+    box-shadow: 0 0 16px 1px #575757;
 }
 
 .allSelect{
     display: flex;
-    margin-bottom: 0px;
     justify-content: flex-start;
     margin: 10px;
     align-items: center;
